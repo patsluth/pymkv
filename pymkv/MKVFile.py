@@ -67,6 +67,7 @@ class MKVFile:
         self._split_options = []
         self._link_to_previous_options = []
         self._link_to_next_options = []
+        self._appending_options = []
 
     def command(self, output_path, subprocess=False):
         """Generates an mkvmerge command based on the configured MKVFile.
@@ -301,6 +302,7 @@ class MKVFile:
         """Remove all splitting options."""
         self._split_options = []
 
+    # TODO: add link parameter to docstrings
     def split_size(self, size, link=False):
         """Split the output file into parts by size.
 
@@ -532,6 +534,20 @@ class MKVFile:
         if not MKVFile.verify_matroska(file_path):
             raise ValueError('"{}" is not a matroska file'.format(file_path))
         self._link_to_next_options = ['--link-to-next', '=' + file_path]
+
+    def append_none(self):
+        self._appending_options = []
+
+    def append_files(self, *file_paths):
+        # TODO: move file appending to add_file()
+        # check for valid files
+        f_flat = MKVFile.flatten(file_paths)
+        if len(f_flat) == 0:
+            raise ValueError('"{}" are not properly formatted files'.format(file_paths))
+        for file in f_flat:
+            if not MKVFile.verify_matroska(file):
+                raise ValueError('"{}" is not a matroska file'.format(file))
+        self._appending_options = ['']
 
     @staticmethod
     def flatten(item):
