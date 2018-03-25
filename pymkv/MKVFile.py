@@ -41,6 +41,7 @@ class MKVFile:
         self._chapters_file = None
         self._chapter_language = None
         self.tracks = []
+        self.append_files = []
         if file_path is not None and not verify_mkvmerge(mkvmerge_path=self.mkvmerge_path):
             raise FileNotFoundError('mkvmerge is not at the specified path, add it there or change the mkvmerge_path '
                                     'property')
@@ -68,7 +69,6 @@ class MKVFile:
         self._split_options = []
         self._link_to_previous_options = []
         self._link_to_next_options = []
-        self._appending_options = []
 
     @property
     def chapter_language(self):
@@ -129,6 +129,9 @@ class MKVFile:
             # add path
             command.append(track.file_path)
 
+        for file in self.append_files:
+            pass
+
         # chapters
         if self._chapter_language is not None:
             command.extend(['--chapter-language', self._chapter_language])
@@ -163,6 +166,7 @@ class MKVFile:
             print('Running with command:\n"' + command + '"')
             sp.run(self.command(output_path, subprocess=True))
 
+    # TODO: append track
     def add_track(self, track):
         """Add an MKVTrack to the MKVFile.
 
@@ -176,10 +180,10 @@ class MKVFile:
         else:
             raise TypeError('track is not str or MKVTrack')
 
-    def add_file(self, file):
-        """Combine an MKVFile with another MKVFile.
+    def add_file(self, file, append=False):
+        """Combine an MKVFile with another MKV file.
 
-        file (MKVFile):
+        file (str, MKVFile):
             The MKVFile to be combined with the MKVFile.
         """
         if isinstance(file, str):
@@ -541,16 +545,16 @@ class MKVFile:
     def append_none(self):
         self._appending_options = []
 
-    def append_files(self, *file_paths):
-        # TODO: move file appending to add_file()
-        # check for valid files
-        f_flat = MKVFile.flatten(file_paths)
-        if len(f_flat) == 0:
-            raise ValueError('"{}" are not properly formatted files'.format(file_paths))
-        for file in f_flat:
-            if not MKVFile.verify_matroska(file):
-                raise ValueError('"{}" is not a matroska file'.format(file))
-        self._appending_options = ['']
+    # def append_files(self, *file_paths):
+    #     # TODO: move file appending to add_file()
+    #     # check for valid files
+    #     f_flat = MKVFile.flatten(file_paths)
+    #     if len(f_flat) == 0:
+    #         raise ValueError('"{}" are not properly formatted files'.format(file_paths))
+    #     for file in f_flat:
+    #         if not verify_matroska(file):
+    #             raise ValueError('"{}" is not a matroska file'.format(file))
+    #     self._appending_options = ['']
 
     @staticmethod
     def flatten(item):
