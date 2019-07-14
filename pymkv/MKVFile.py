@@ -82,7 +82,7 @@ class MKVFile:
     @chapter_language.setter
     def chapter_language(self, language):
         if language is not None and language not in LANGUAGES:
-            raise ValueError('not an ISO639-2 language code')
+            print(f'Warning: {language} is not an ISO639-2 language code')
         self._chapter_language = language
 
     def command(self, output_path, subprocess=False):

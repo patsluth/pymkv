@@ -92,10 +92,9 @@ class MKVTrack:
 
     @language.setter
     def language(self, language):
-        if language in LANGUAGES or language is None:
-            self._language = language
-        else:
-            raise ValueError('not an ISO639-2 language code')
+        if language is not None and language not in LANGUAGES:
+            print(f'Warning: {language} is not an ISO639-2 language code')
+        self._language = language
 
     @property
     def tags(self):
