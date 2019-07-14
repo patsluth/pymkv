@@ -37,6 +37,9 @@ class MKVFile:
             The internal title given to the MKVFile. If no title is given, the title of the pre-existing file will
             be used if it exists.
         """
+        
+        self.warnings = []
+        
         self.mkvmerge_path = 'mkvmerge'
         self.title = title
         self._chapters_file = None
@@ -81,8 +84,9 @@ class MKVFile:
 
     @chapter_language.setter
     def chapter_language(self, language):
+        self.warnings.clear()
         if language is not None and language not in LANGUAGES:
-            print(f'Warning: {language} is not an ISO639-2 language code')
+            self.warnings.append(f'Warning: {language} is not an ISO639-2 language code')
         self._chapter_language = language
 
     def command(self, output_path, subprocess=False):

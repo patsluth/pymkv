@@ -33,6 +33,8 @@ class MKVTrack:
         forced_track (bool, optional):
             Determines if the track should be a forced track when muxed into an MKV file.
         """
+        self.warnings = []
+        
         # track info
         self._track_codec = None
         self._track_type = None
@@ -92,8 +94,9 @@ class MKVTrack:
 
     @language.setter
     def language(self, language):
+        self.warnings.clear()
         if language is not None and language not in LANGUAGES:
-            print(f'Warning: {language} is not an ISO639-2 language code')
+            self.warnings.append(f'Warning: {language} is not an ISO639-2 language code')
         self._language = language
 
     @property
