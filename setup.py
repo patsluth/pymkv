@@ -22,7 +22,7 @@ setup(
     description='A Python wrapper for mkvmerge. It provides support for muxing tracks together, combining multiple '
                 'MKV files, reordering tracks, naming tracks, and other MKV related things.',
     long_description=long_description,
-    url='https://github.com/sheldonkwoodward/pymkv',
+    url='https://github.com:patsluth/pymkv.git',
     author='Sheldon Woodward',
     author_email='admin@sheldonw.com',
     license='MIT',
