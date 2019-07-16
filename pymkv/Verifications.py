@@ -34,7 +34,7 @@ def verify_mkvpropedit(mkvpropedit_path='mkvpropedit'):
         output = sp.check_output([mkvpropedit_path, '-V']).decode()
     except (sp.CalledProcessError, FileNotFoundError):
         return False
-    if match('mkvpropedit_path.*', output):
+    if match('mkvpropedit.*', output):
         return True
     return False
 
