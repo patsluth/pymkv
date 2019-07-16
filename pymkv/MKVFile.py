@@ -94,7 +94,7 @@ class MKVFile:
             raise FileNotFoundError('mkvpropedit is not at the specified path, add it there or change the mkvpropedit_path '
                                     'property')
                                     
-        command = f'{self.mkvpropedit_path} \'{self.file_path}\' --edit info --set title=\'{self.title}\''# > /dev/null'
+        command = f'{self.mkvpropedit_path} \'{self.file_path}\' --edit info --set title=\'{self.title}\' > /dev/null'
         print('Running with command:\n"' + command + '"')
         os.system(command)
 
