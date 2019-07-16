@@ -95,7 +95,7 @@ class MKVFile:
                                     
         command = f'{self.mkvpropedit_path} \'{self.file_path}\' --edit info --set title=\'{self.title}\''# > /dev/null'
         print('Running with command:\n"' + command + '"')
-#        sp.run(command)
+        sp.run(command)
 
     @property
     def chapter_language(self):
