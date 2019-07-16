@@ -24,6 +24,21 @@ def verify_mkvmerge(mkvmerge_path='mkvmerge'):
     return False
 
 
+def verify_mkvpropedit(mkvpropedit_path='mkvpropedit'):
+    """Verify mkvpropedit is working.
+
+    mkvpropedit_path (str):
+        Alternate path to mkvmerge if it is not already in the $PATH variable.
+    """
+    try:
+        output = sp.check_output([mkvpropedit_path, '-V']).decode()
+    except (sp.CalledProcessError, FileNotFoundError):
+        return False
+    if match('mkvpropedit_path.*', output):
+        return True
+    return False
+
+
 def verify_matroska(file_path, mkvmerge_path='mkvmerge'):
     """Verify a file is a Matroska file.
 

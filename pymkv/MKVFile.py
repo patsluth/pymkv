@@ -14,7 +14,7 @@ from pymkv.MKVTrack import MKVTrack
 from pymkv.MKVAttachment import MKVAttachment
 from pymkv.Timestamp import Timestamp
 from pymkv.ISO639_2 import ISO639_2 as LANGUAGES
-from pymkv.Verifications import verify_matroska, verify_mkvmerge
+from pymkv.Verifications import verify_matroska, verify_mkvmerge, verify_mkvpropedit
 
 
 class MKVFile:
@@ -41,7 +41,9 @@ class MKVFile:
         self.warnings = []
         
         self.mkvmerge_path = 'mkvmerge'
-        self.title = title
+        self.mkvpropedit_path = 'mkvpropedit'
+        self.file_path = file_path
+        self._title = title
         self._chapters_file = None
         self._chapter_language = None
         self._global_tags_file = None
@@ -56,8 +58,8 @@ class MKVFile:
             # add file title
             file_path = expanduser(file_path)
             info_json = json.loads(sp.check_output([self.mkvmerge_path, '-J', file_path]).decode())
-            if self.title is None and 'title' in info_json['container']['properties']:
-                self.title = info_json['container']['properties']['title']
+            if self._title is None and 'title' in info_json['container']['properties']:
+         cd        self._title = info_json['container']['properties']['title']
 
             # add tracks with info
             for track in info_json['tracks']:
@@ -77,6 +79,22 @@ class MKVFile:
 
     def __repr__(self):
         return repr(self.__dict__)
+
+    @property
+    def title(self):
+        return self._title
+
+    @title.setter
+    def title(self, title):
+        self._title = title
+        
+        if not verify_mkvpropedit(mkvpropedit_path=self.mkvpropedit_path):
+            raise FileNotFoundError('mkvpropedit is not at the specified path, add it there or change the mkvpropedit_path '
+                                    'property')
+                                    
+        command = f'{self.mkvpropedit_pat} {self.file_path} --edit info --set title={self.title}'# > /dev/null'
+        print('Running with command:\n"' + command + '"')
+        sp.run(command)
 
     @property
     def chapter_language(self):
