@@ -4,6 +4,7 @@
 """MKVFile Class"""
 
 import json
+import os
 from os import devnull
 from os.path import expanduser, isfile
 import subprocess as sp
@@ -95,7 +96,7 @@ class MKVFile:
                                     
         command = f'{self.mkvpropedit_path} \'{self.file_path}\' --edit info --set title=\'{self.title}\''# > /dev/null'
         print('Running with command:\n"' + command + '"')
-        sp.run(command)
+        os.system(command)
 
     @property
     def chapter_language(self):
