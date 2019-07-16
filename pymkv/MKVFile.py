@@ -88,6 +88,7 @@ class MKVFile:
     def title(self, title):
         self._title = title
         
+        print(self.mkvpropedit_path)
         if not verify_mkvpropedit(mkvpropedit_path=self.mkvpropedit_path):
             raise FileNotFoundError('mkvpropedit is not at the specified path, add it there or change the mkvpropedit_path '
                                     'property')
