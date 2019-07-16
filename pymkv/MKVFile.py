@@ -59,7 +59,7 @@ class MKVFile:
             file_path = expanduser(file_path)
             info_json = json.loads(sp.check_output([self.mkvmerge_path, '-J', file_path]).decode())
             if self._title is None and 'title' in info_json['container']['properties']:
-         cd        self._title = info_json['container']['properties']['title']
+                self._title = info_json['container']['properties']['title']
 
             # add tracks with info
             for track in info_json['tracks']:
@@ -92,9 +92,9 @@ class MKVFile:
             raise FileNotFoundError('mkvpropedit is not at the specified path, add it there or change the mkvpropedit_path '
                                     'property')
                                     
-        command = f'{self.mkvpropedit_pat} {self.file_path} --edit info --set title={self.title}'# > /dev/null'
+        command = f'{self.mkvpropedit_path} {self.file_path} --edit info --set title={self.title}'# > /dev/null'
         print('Running with command:\n"' + command + '"')
-        sp.run(command)
+#        sp.run(command)
 
     @property
     def chapter_language(self):
