@@ -88,7 +88,7 @@ class MKVFile:
     @title.setter
     def title(self, title):
         if self._title == title:
-            returns
+            return
         self._title = title
         
         print(self.mkvpropedit_path)
